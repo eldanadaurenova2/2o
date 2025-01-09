@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Catalog - Elle</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Add the same styles you used in the previous page */
+    #search-form {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 30px;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+      width: 250px;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    #search-form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    #search-form input:focus {
+      border-color: #007bff;
+    }
+
+    #search-form button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    #search-form button:hover {
+      background-color: #0056b3;
+    }
+
+    .navbar {
+      position: relative;
+      z-index: 500;
+    }
+
+    #category-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .category-btn {
+      margin: 0 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+
+    .category-btn:hover {
+      background-color: #0056b3;
+    }
+
+    #product-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .product {
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 10px;
+      width: calc(33.333% - 20px);
+      box-sizing: border-box;
+    }
+
+    .product img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .product-info {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .product-info h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .product-info p {
+      margin-bottom: 10px;
+    }
+
+    .add-to-cart {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+
+    .add-to-cart:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <a href="#">ClothingStore</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="catalog.html">Catalog</a></li>
+      <li><a href="catalog.html">Sale</a></li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="person_24dp_434343_FILL0_wght600_GRAD0_opsz24.png" alt="Profile" class="nav-icon">
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="login.html">Login</a></li>
+          <li><a class="dropdown-item" href="register.html">Register</a></li>
+          <li><a class="dropdown-item" href="profile.html">My Profile</a></li>
+          <li><a class="dropdown-item" href="#">Logout</a></li>
+        </ul>
+      </li>
+      <li><a href="#" id="search-icon"><img src="search_24dp_434343_FILL0_wght700_GRAD0_opsz24.png" alt="search" class="nav-icon"></a></li>
+      <li><a href="bag.html"><img src="shopping_bag_24dp_434343_FILL0_wght600_GRAD0_opsz24.png" alt="bag" class="nav-icon"></a></li>
+    </ul>
+  </nav>
+
+  <!-- Search Form (Initially hidden) -->
+  <form id="search-form">
+    <input type="text" placeholder="Search..." />
+    <button type="submit">Search</button>
+  </form>
+
+  <!-- Category Buttons -->
+  <div id="category-buttons">
+    <button class="category-btn" data-category="all">All</button>
+    <button class="category-btn" data-category="Dresses">Dresses</button>
+    <button class="category-btn" data-category="Outwear">Outwear</button>
+    <button class="category-btn" data-category="Tops">Tops</button>
+    <button class="category-btn" data-category="Bottoms">Bottoms</button>
+    <button class="category-btn" data-category="Accessories">Accessories</button>
+  </div>
+
+  <!-- Container for displaying products -->
+  <div id="product-list"></div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <img src="footer-logo.jpg" alt="Elle logo" class="footer-logo">
+      <p>&copy; 2024 Elle. All rights reserved.</p>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Bootstrap & Custom JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const searchIcon = document.getElementById('search-icon');
+    const searchForm = document.getElementById('search-form');
+
+    searchIcon.addEventListener('click', function (e) {
+      e.preventDefault();
+      searchForm.style.display = searchForm.style.display === 'none' || searchForm.style.display === '' ? 'block' : 'none';
+    });
+
+    // Fetch products from API and filter by category
+    let allProducts = [];
+    fetch('/api/products')  .then(response => {
+    if (!response.ok) {      
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();  })
+  .then(products => {   
+     console.log(products); // Для отладки
+    allProducts = products;    
+    displayProducts(products);
+  }) 
+   .catch(err => console.error('Error fetching products:', err));
+    // Function to display products
+    function displayProducts(products) {
+      const productList = document.getElementById('product-list');
+      productList.innerHTML = ''; // Clear old products
+
+      products.forEach(product => {
+        const productDiv = document.createElement('div');
+        productDiv.classList.add('product');
+        productDiv.innerHTML = `
+          <img src="${product.image_url}" alt="${product.name}">
+          <div class="product-info">
+            <h2>${product.name}</h2>
+            <p>${product.description}</p>
+            <p>Category: ${product.category}</p>
+            <p>Price: $${product.price}</p>
+            <button class="add-to-cart" data-id="${product._id}">Add to Cart</button>
+          </div>
+        `;
+        productList.appendChild(productDiv);
+      });
+
+      // Add event listeners to "Add to Cart" buttons
+      document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const productId = e.target.dataset.id;
+          addToCart(productId);
+        });
+      });
+    }
+
+    // Add product to cart
+    function addToCart(productId) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const product = allProducts.find(p => p._id === productId);
+
+      if (product) {
+        cart.push(product);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert(`${product.name} added to cart!`);
+      }
+    }
+
+    // Filter products by category
+    document.getElementById('category-buttons').addEventListener('click', (e) => {
+      if (e.target.classList.contains('category-btn')) {
+        const category = e.target.dataset.category;
+        if (category === 'all') {
+          displayProducts(allProducts);
+        } else {
+          const filteredProducts = allProducts.filter(product => product.category === category);
+          displayProducts(filteredProducts);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
